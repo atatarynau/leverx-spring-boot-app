@@ -4,6 +4,7 @@ import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
 import com.leverx.leverxspringbootapp.dto.CatSaveDto;
 import com.leverx.leverxspringbootapp.entity.Cat;
 import com.leverx.leverxspringbootapp.entity.Owner;
+import com.leverx.leverxspringbootapp.exception.EntityIsDead;
 import com.leverx.leverxspringbootapp.repository.CatRepository;
 import com.leverx.leverxspringbootapp.service.CatService;
 import com.leverx.leverxspringbootapp.service.OwnerService;
@@ -27,10 +28,13 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public Cat save(Cat cat, long ownerId) {
-        Owner owner = ownerService.getById(ownerId);
-        cat.setOwner(owner);
-        Cat catFromDb = catRepository.save(cat);
-        return catFromDb;
+        if(ownerService.isAliveById(ownerId)){
+            Owner owner = ownerService.getById(ownerId);
+            cat.setOwner(owner);
+            Cat catFromDb = catRepository.save(cat);
+            return catFromDb;
+        }
+        throw new EntityIsDead("Owner with id '"+ownerId+"' is dead");
     }
 
     @Override
@@ -71,6 +75,16 @@ public class CatServiceImpl implements CatService {
             catRepository.deleteById(id);
         }else {
             throw new EntityDoesntExist("Cat with id '" + id + "' doesn't exist");
+        }
+    }
+
+    @Override
+    public void killCatById(long id) {
+        Optional<Cat> byId = catRepository.findById(id);
+        if (byId.isPresent()) {
+            Cat cat = byId.get();
+            cat.setAlive(false);
+            catRepository.save(cat);
         }
     }
 }

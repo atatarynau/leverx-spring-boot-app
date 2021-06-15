@@ -6,6 +6,7 @@ import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.entity.Pet;
 import com.leverx.leverxspringbootapp.repository.OwnerRepository;
+import com.leverx.leverxspringbootapp.service.CatService;
 import com.leverx.leverxspringbootapp.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private CatService catService;
 
     @Override
     public Owner save(Owner owner) {
@@ -107,5 +111,32 @@ public class OwnerServiceImpl implements OwnerService {
         }else {
             throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
         }
+    }
+
+    @Override
+    public void killOwnerById(long id) {
+        Optional<Owner> byId = ownerRepository.findById(id);
+        if(byId.isPresent()){
+            Owner owner = byId.get();
+            owner.setAlive(false);
+            Set<Pet> pets = owner.getPets();
+            for (Pet pet : pets) {
+                long petId = pet.getId();
+                catService.killCatById(petId);
+            }
+            ownerRepository.save(owner);
+        }else {
+            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        }
+    }
+
+    @Override
+    public boolean isAliveById(long id) {
+        Optional<Owner> byId = ownerRepository.findById(id);
+        if(byId.isPresent()){
+            Owner owner = byId.get();
+            return owner.isAlive();
+        }
+        throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
     }
 }

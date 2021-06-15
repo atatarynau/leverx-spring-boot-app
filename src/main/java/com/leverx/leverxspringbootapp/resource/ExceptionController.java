@@ -3,6 +3,7 @@ package com.leverx.leverxspringbootapp.resource;
 
 import com.leverx.leverxspringbootapp.exception.EntityAlreadyExist;
 import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
+import com.leverx.leverxspringbootapp.exception.EntityIsDead;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExist.class)
     public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex){
+        String message = ex.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityIsDead.class)
+    public ResponseEntity<String> entityIsDead(EntityIsDead ex){
         String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }

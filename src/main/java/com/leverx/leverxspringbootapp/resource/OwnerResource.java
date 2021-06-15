@@ -39,4 +39,10 @@ public class OwnerResource {
         ownerService.deleteById(id);
         return new ResponseEntity<>("Delete was performed", HttpStatus.OK);
     }
+
+    @PutMapping(path = "/kill/{id}")
+    public ResponseEntity<String> killOwner(@PathVariable("id") long id){
+        ownerService.killOwnerById(id);
+        return new ResponseEntity<>("Owner with id "+id+"' was killed", HttpStatus.OK);
+    }
 }

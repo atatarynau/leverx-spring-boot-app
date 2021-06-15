@@ -14,4 +14,6 @@ public interface OwnerService {
     boolean addPetById(Pet pet, long id);
     Owner toEntity(OwnerSaveDto ownerSaveDto);
     void deleteById(long id);
+    void killOwnerById(long id);
+    boolean isAliveById(long id);
 }
