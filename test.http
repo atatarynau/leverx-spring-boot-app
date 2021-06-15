@@ -1,0 +1,38 @@
+POST localhost:8080/owner
+Content-Type: application/json
+
+{
+  "firstName": "Alexandr",
+  "lastName": "Dinaec",
+  "passportNumber": "HB2901100",
+  "phoneNumber": "+375291110033"
+}
+
+###
+
+GET localhost:8080/owner/1
+
+###
+
+DELETE localhost:8080/owner/1
+
+###
+
+POST localhost:8080/pet/cat
+Content-Type: application/json
+
+{
+  "isHasWool": "true",
+  "age": "2",
+  "breed": "Jone",
+  "ownerId": "2",
+  "name": "Tuz"
+}
+
+###
+
+GET localhost:8080/pet/cat/1
+
+###
+
+DELETE localhost:8080/pet/cat/1
