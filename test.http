@@ -1,3 +1,5 @@
+################################################### OWNER
+
 POST localhost:8080/owner
 Content-Type: application/json
 
@@ -20,13 +22,13 @@ DELETE localhost:8080/owner/1
 
 PUT localhost:8080/owner/kill/1
 
-###
+################################################### CAT
 
 POST localhost:8080/pet/cat
 Content-Type: application/json
 
 {
-  "isHasWool": "true",
+  "hasWool": "true",
   "age": "2",
   "breed": "Jone",
   "ownerId": "1",
@@ -40,3 +42,26 @@ GET localhost:8080/pet/cat/1
 ###
 
 DELETE localhost:8080/pet/cat/1
+
+###
+
+########################################### DOG
+
+POST localhost:8080/pet/dog
+Content-Type: application/json
+
+{
+  "isTrained": "true",
+  "age": "2",
+  "breed": "Pec",
+  "ownerId": "1",
+  "name": "Dogger"
+}
+
+###
+
+GET localhost:8080/pet/dog/1
+
+###
+
+DELETE localhost:8080/pet/dog/1

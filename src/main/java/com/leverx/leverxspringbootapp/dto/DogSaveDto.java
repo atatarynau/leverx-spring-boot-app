@@ -1,21 +1,18 @@
-package com.leverx.leverxspringbootapp.entity;
+package com.leverx.leverxspringbootapp.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-import javax.persistence.Entity;
 
-
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Entity
-public class Dog extends Pet{
+public class DogSaveDto extends PetSaveDto{
 
     private boolean isTrained;
-
 }
