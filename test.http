@@ -1,52 +1,87 @@
 ################################################### OWNER
 
+#SAVE
 POST localhost:8080/owner
 Content-Type: application/json
 
 {
   "firstName": "Alexandr",
   "lastName": "Dinaec",
+  "passportNumber": "HB2911101",
+  "phoneNumber": "+375291110033"
+}
+
+###
+
+#UPDATE
+PUT localhost:8080/owner/1
+Content-Type: application/json
+
+{
+  "firstName": "Dmitro",
+  "lastName": "Morgen",
   "passportNumber": "HB2911105",
   "phoneNumber": "+375291110033"
 }
 
 ###
 
+#GET
 GET localhost:8080/owner/1
 
 ###
 
+#DELETE
 DELETE localhost:8080/owner/1
 
 ###
 
+#KILL
 PUT localhost:8080/owner/kill/1
 
 ################################################### CAT
 
+#SAVE
 POST localhost:8080/pet/cat
 Content-Type: application/json
 
 {
+  "ownerId": "2",
   "hasWool": "true",
   "age": "2",
   "breed": "Jone",
-  "ownerId": "1",
   "name": "Tuz"
 }
 
 ###
 
+#UPDATE
+PUT localhost:8080/pet/cat/1
+Content-Type: application/json
+
+{
+  "ownerId": "2",
+  "hasWool": "true",
+  "age": "2",
+  "breed": "Jone",
+  "name": "Tuz"
+}
+
+###
+
+#GET
 GET localhost:8080/pet/cat/1
 
 ###
 
+#DELETE
 DELETE localhost:8080/pet/cat/1
 
 ###
 
 ########################################### DOG
 
+#SAVE
 POST localhost:8080/pet/dog
 Content-Type: application/json
 
@@ -60,8 +95,24 @@ Content-Type: application/json
 
 ###
 
+#UPDATE
+PUT localhost:8080/pet/dog/1
+Content-Type: application/json
+
+{
+  "isTrained": "true",
+  "age": "2",
+  "breed": "Pec",
+  "ownerId": "2",
+  "name": "Dogger"
+}
+
+###
+
+#GET
 GET localhost:8080/pet/dog/1
 
 ###
 
+#DELETE
 DELETE localhost:8080/pet/dog/1

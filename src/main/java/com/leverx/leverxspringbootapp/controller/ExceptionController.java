@@ -1,4 +1,4 @@
-package com.leverx.leverxspringbootapp.resource;
+package com.leverx.leverxspringbootapp.controller;
 
 
 import com.leverx.leverxspringbootapp.exception.EntityAlreadyExist;
@@ -26,7 +26,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
-
         List<FieldError> fieldErrors = ex.getFieldErrors();
         for (FieldError fieldError : fieldErrors) {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());

@@ -1,29 +1,27 @@
-package com.leverx.leverxspringbootapp.resource;
+package com.leverx.leverxspringbootapp.controller;
 
-import com.leverx.leverxspringbootapp.dto.CatSaveDto;
+import com.leverx.leverxspringbootapp.mapper.CatParamConverter;
+import com.leverx.leverxspringbootapp.param.CatParam;
 import com.leverx.leverxspringbootapp.entity.Cat;
+import com.leverx.leverxspringbootapp.param.OwnerParam;
 import com.leverx.leverxspringbootapp.service.CatService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Slf4j
 @RestController
 @RequestMapping(path = "/pet/cat")
-public class CatResource {
+@AllArgsConstructor
+public class CatController {
 
-    @Autowired
-    private CatService catService;
+    private final CatService catService;
+
+    private final CatParamConverter catParamConverter;
 
     @GetMapping(path = "{id}")
     public ResponseEntity<Cat> getCatById(@PathVariable("id")long id){
@@ -34,10 +32,10 @@ public class CatResource {
     }
 
     @PostMapping
-    public ResponseEntity<Cat> saveCat(@Valid @RequestBody CatSaveDto catSaveDto){
-        log.info("Try to save cat: "+catSaveDto);
-        long ownerId = catSaveDto.getOwnerId();
-        Cat cat = catService.toEntity(catSaveDto);
+    public ResponseEntity<Cat> saveCat(@Valid @RequestBody CatParam catParam){
+        log.info("Try to save cat: "+catParam);
+        long ownerId = catParam.getOwnerId();
+        Cat cat = catParamConverter.toEntity(catParam);
         Cat save = catService.save(cat, ownerId);
         log.info("Cat was saved.");
         return new ResponseEntity<>(save, HttpStatus.OK);
@@ -49,5 +47,13 @@ public class CatResource {
         catService.deleteById(id);
         log.info("Cat was delete.");
         return new ResponseEntity<>("Delete was performed", HttpStatus.OK);
+    }
+
+    @PutMapping(path = "{id}")
+    public ResponseEntity<String> updateOwner(@PathVariable("id") long id, @RequestBody CatParam catParam){
+        Cat cat = catParamConverter.toEntity(catParam);
+        cat.setId(id);
+        catService.update(cat);
+        return new ResponseEntity<>("Cat was update",HttpStatus.OK);
     }
 }
