@@ -8,13 +8,13 @@ import com.leverx.leverxspringbootapp.entity.Pet;
 import com.leverx.leverxspringbootapp.repository.OwnerRepository;
 import com.leverx.leverxspringbootapp.service.CatService;
 import com.leverx.leverxspringbootapp.service.OwnerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
@@ -25,72 +25,33 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner save(Owner owner) {
+        log.info("Save owner '"+owner+"'");
         String passportNumber = owner.getPassportNumber();
         if(!ownerRepository.existsByPassportNumber(passportNumber)){
+            log.info("Owner with passport number '"+passportNumber+"' doesn't exist.");
             Owner ownerFromDb = ownerRepository.save(owner);
+            log.info("Owner '"+ownerFromDb+"' was saved.");
             return ownerFromDb;
         }else {
+            log.warn("Owner with passport number '"+passportNumber+"' already exist!");
             throw new EntityAlreadyExist("Owner with passport number '"+passportNumber+"' already exist!");
         }
     }
 
     @Override
     public Owner getById(long id) {
-//        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
-//            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-//        });
-        Optional<Owner> byId = ownerRepository.findById(id);
-        Owner owner;
-        if(byId.isPresent()) {
-            owner = byId.get();
-        }else {
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-        }
+        log.info("Get owner by id '"+id+"'");
+        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
+            log.warn("Owner with id '" + id + "' doesn't exist.");
+            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist.");
+        });
+        log.info("Owner with id '"+id+"' was found.");
         return owner;
-    }
-
-    @Override
-    public Owner getByPassportNumber(String passportNumber) {
-//        Owner owner = ownerRepository.findByPassportNumber(passportNumber).orElseThrow(() -> {
-//            throw new EntityDoesntExist("Owner with passport number '" + passportNumber + "' doesn't exist");
-//        });
-
-        Optional<Owner> byId = ownerRepository.findByPassportNumber(passportNumber);
-        Owner owner;
-        if(byId.isPresent()) {
-            owner = byId.get();
-        }else {
-            throw new EntityDoesntExist("Owner with passport number '" + passportNumber + "' doesn't exist");
-        }
-        return owner;
-    }
-
-    @Override
-    public boolean isPassportNumberExist(String passportNumber) {
-        boolean result = ownerRepository.existsByPassportNumber(passportNumber);
-        return result;
-    }
-
-    @Override
-    public boolean addPetById(Pet pet, long id) {
-        Optional<Owner> byId = ownerRepository.findById(id);
-//        Owner owner = byId.orElseThrow(() -> {
-//            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-//        });
-        Owner owner;
-
-        if(byId.isPresent()){
-            owner = byId.get();
-        }else{
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-        }
-        Set<Pet> pets = owner.getPets();
-        boolean result = pets.add(pet);
-        return result;
     }
 
     @Override
     public Owner toEntity(OwnerSaveDto ownerSaveDto) {
+        log.info("Cat dto '"+ownerSaveDto+"' to cat.");
         String passportNumber = ownerSaveDto.getPassportNumber();
         String firstName = ownerSaveDto.getFirstName();
         String lastName = ownerSaveDto.getLastName();
@@ -101,42 +62,47 @@ public class OwnerServiceImpl implements OwnerService {
         owner.setFirstName(firstName);
         owner.setLastName(lastName);
         owner.setPassportNumber(passportNumber);
+        log.info("Owner dto was transferred.");
         return owner;
     }
 
     @Override
     public void deleteById(long id) {
+        log.info("Delete owner by id '"+id+"'");
         if (ownerRepository.existsById(id)) {
+            log.info("Owner with id '"+id+"' exists.");
             ownerRepository.deleteById(id);
+            log.info("Owner with id '"+id+"' was deleted.");
         }else {
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+            log.warn("Owner with id '"+id+"' doesn't exist.");
+            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist.");
         }
     }
 
     @Override
     public void killOwnerById(long id) {
-        Optional<Owner> byId = ownerRepository.findById(id);
-        if(byId.isPresent()){
-            Owner owner = byId.get();
-            owner.setAlive(false);
-            Set<Pet> pets = owner.getPets();
-            for (Pet pet : pets) {
-                long petId = pet.getId();
-                catService.killCatById(petId);
-            }
-            ownerRepository.save(owner);
-        }else {
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        log.info("Kill owner by id '"+id+"'");
+        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
+            log.warn("Owner with id '" + id + "' doesn't exist");
+            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        });
+        owner.setAlive(false);
+        Set<Pet> pets = owner.getPets();
+        for (Pet pet : pets) {
+            pet.setAlive(false);
         }
+        ownerRepository.save(owner);
+        log.info("Owner with id '"+id+"' was killed.");
     }
 
     @Override
     public boolean isAliveById(long id) {
-        Optional<Owner> byId = ownerRepository.findById(id);
-        if(byId.isPresent()){
-            Owner owner = byId.get();
-            return owner.isAlive();
-        }
-        throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
+            log.warn("Owner with id '" + id + "' doesn't exist");
+            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        });
+        boolean isAlive = owner.isAlive();
+        log.info("Owner is alive: "+isAlive);
+        return isAlive;
     }
 }

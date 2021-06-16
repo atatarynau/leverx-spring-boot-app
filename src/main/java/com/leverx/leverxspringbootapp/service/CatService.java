@@ -9,5 +9,4 @@ public interface CatService {
     Cat getById(long id);
     Cat toEntity(CatSaveDto catSaveDto);
     void deleteById(long id);
-    void killCatById(long id);
 }

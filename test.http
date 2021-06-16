@@ -29,7 +29,7 @@ Content-Type: application/json
   "isHasWool": "true",
   "age": "2",
   "breed": "Jone",
-  "ownerId": "2",
+  "ownerId": "1",
   "name": "Tuz"
 }
 

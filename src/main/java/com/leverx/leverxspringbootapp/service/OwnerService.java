@@ -9,9 +9,6 @@ public interface OwnerService {
 
     Owner save(Owner owner);
     Owner getById(long id);
-    Owner getByPassportNumber(String passportNumber);
-    boolean isPassportNumberExist(String passportNumber);
-    boolean addPetById(Pet pet, long id);
     Owner toEntity(OwnerSaveDto ownerSaveDto);
     void deleteById(long id);
     void killOwnerById(long id);
