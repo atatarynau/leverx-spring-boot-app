@@ -7,7 +7,7 @@ Content-Type: application/json
 {
   "firstName": "Alexandr",
   "lastName": "Dinaec",
-  "passportNumber": "HB2911102",
+  "passportNumber": "HB2911101",
   "phoneNumber": "+375291110033"
 }
 

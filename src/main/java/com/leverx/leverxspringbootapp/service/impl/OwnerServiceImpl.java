@@ -5,12 +5,14 @@ import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.entity.Pet;
 import com.leverx.leverxspringbootapp.exception.EntityIsDead;
+import com.leverx.leverxspringbootapp.param.OwnerParamExchangePets;
 import com.leverx.leverxspringbootapp.repository.OwnerRepository;
 import com.leverx.leverxspringbootapp.service.OwnerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,65 +25,52 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner save(Owner owner) {
+        log.info(String.format("Try to save owner '%s'", owner));
         String passportNumber = owner.getPassportNumber();
         if (!ownerRepository.existsByPassportNumber(passportNumber)) {
-            log.info("Owner with passport number '" + passportNumber + "' doesn't exist.");
             Owner ownerFromDb = ownerRepository.save(owner);
-            log.info("Owner '" + ownerFromDb + "' was saved.");
             return ownerFromDb;
         } else {
-            log.info("Owner with passport number '" + passportNumber + "' already exist!");
-            throw new EntityAlreadyExist("Owner with passport number '" + passportNumber + "' already exist!");
+            throw new EntityAlreadyExist(String.format("Owner with passport number '%s' already exist!", passportNumber));
         }
     }
 
     @Override
     public Owner getById(long id) {
-        log.info("Get owner by id '" + id + "'");
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
-            log.warn("Owner with id '" + id + "' doesn't exist.");
-            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist.");
-        });
-        log.info("Owner with id '" + id + "' was found.");
+        log.info(String.format("Try to get owner by id '%s'", id));
+        Owner owner = ownerRepository.findById(id).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist.", id)));
         return owner;
     }
 
     @Override
     public void deleteById(long id) {
+        log.info(String.format("Try to delete owner by id '%s'", id));
         if (ownerRepository.existsById(id)) {
-            log.info("Owner with id '" + id + "' exists.");
             ownerRepository.deleteById(id);
-            log.info("Owner with id '" + id + "' was deleted.");
         } else {
-            log.warn("Owner with id '" + id + "' doesn't exist.");
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist.");
+            throw new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist.", id));
         }
     }
 
     @Override
     public void killOwnerById(long id) {
-        log.info("Kill owner by id '" + id + "'");
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
-            log.warn("Owner with id '" + id + "' doesn't exist");
-            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-        });
+        log.info(String.format("Kill owner by id '%s'", id));
+        Owner owner = ownerRepository.findById(id).orElseThrow(() ->
+            new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", id)));
         owner.setAlive(false);
         Set<Pet> pets = owner.getPets();
         for (Pet pet : pets) {
             pet.setAlive(false);
         }
         ownerRepository.save(owner);
-        log.info("Owner with id '" + id + "' was killed.");
     }
 
     @Override
     public boolean isAliveById(long id) {
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> {
-            log.warn("Owner with id '" + id + "' doesn't exist");
-            return new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
-        });
+        Owner owner = ownerRepository.findById(id).orElseThrow(() ->
+            new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", id)));
         boolean isAlive = owner.isAlive();
-        log.info("Owner is alive: " + isAlive);
         return isAlive;
     }
 
@@ -94,4 +83,52 @@ public class OwnerServiceImpl implements OwnerService {
             throw new EntityIsDead("This owner is dead.");
         }
     }
+
+    @Override
+    public void exchangePets(OwnerParamExchangePets ownerParamExchangePets) {
+        long firstOwnerId = ownerParamExchangePets.getFirstOwnerId();
+        long secondOwnerId = ownerParamExchangePets.getSecondOwnerId();
+        long firstOwnerPetId = ownerParamExchangePets.getFirstOwnerPetId();
+        long secondOwnerPetId = ownerParamExchangePets.getSecondOwnerPetId();
+
+        Owner firstOwner = ownerRepository.findById(firstOwnerId).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", firstOwnerId)));
+        Owner secondOwner = ownerRepository.findById(secondOwnerId).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", secondOwnerId)));
+
+        if (firstOwner.isAlive() && secondOwner.isAlive()) {
+            Set<Pet> firstOwnerPets = firstOwner.getPets();
+            Set<Pet> secondOwnerPets = secondOwner.getPets();
+
+            Pet firstPetById = findPetById(firstOwnerPetId, firstOwnerPets).orElseThrow(() ->
+                    new EntityDoesntExist(String.format("Owner with id '%s' doesn't have pet with id '", firstOwnerId,
+                            firstOwnerPetId)));
+            Pet secondPetById = findPetById(secondOwnerPetId, secondOwnerPets).orElseThrow(() ->
+                    new EntityDoesntExist(String.format("Owner with id '%s' doesn't have pet with id '", secondOwnerId,
+                            secondOwnerPetId)));
+
+            firstOwnerPets.remove(firstPetById);
+            firstOwnerPets.add(secondPetById);
+            secondPetById.setOwner(firstOwner);
+
+            secondOwnerPets.remove(secondPetById);
+            secondOwnerPets.add(firstPetById);
+            firstPetById.setOwner(secondOwner);
+
+            ownerRepository.save(firstOwner);
+            ownerRepository.save(secondOwner);
+        } else {
+            throw new EntityIsDead("Owner is dead.");
+        }
+    }
+
+    private Optional<Pet> findPetById(long id, Set<Pet> ownerPets){
+        Optional<Pet> petById = ownerPets.stream()
+                .filter(pet -> pet.getId() == id)
+                .findFirst();
+        return petById;
+    }
+
+
+
 }

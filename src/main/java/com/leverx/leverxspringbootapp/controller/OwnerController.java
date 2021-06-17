@@ -3,6 +3,7 @@ package com.leverx.leverxspringbootapp.controller;
 import com.leverx.leverxspringbootapp.mapper.OwnerParamConverter;
 import com.leverx.leverxspringbootapp.param.OwnerParam;
 import com.leverx.leverxspringbootapp.entity.Owner;
+import com.leverx.leverxspringbootapp.param.OwnerParamExchangePets;
 import com.leverx.leverxspringbootapp.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class OwnerController {
     public static final String OWNER_DELETE_ID = "/{id}";
     public static final String OWNER_UPDATE_ID = "/{id}";
     public static final String OWNER_KILL_ID = "/kill/{id}";
+    public static final String OWNER_EXCHANGE_PETS = "/exchange";
 
     private final OwnerService ownerService;
     private final OwnerParamConverter ownerParamConverter;
@@ -61,5 +63,11 @@ public class OwnerController {
         ownerEntity.setId(id);
         ownerService.update(ownerEntity);
         return new ResponseEntity<>("Owner was update", HttpStatus.OK);
+    }
+
+    @PostMapping(OWNER_EXCHANGE_PETS)
+    public ResponseEntity<String> exchangePets(@RequestBody OwnerParamExchangePets ownerParamExchangePets){
+        ownerService.exchangePets(ownerParamExchangePets);
+        return new ResponseEntity<>("Exchange was finished", HttpStatus.OK);
     }
 }
