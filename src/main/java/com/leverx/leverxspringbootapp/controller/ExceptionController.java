@@ -4,6 +4,7 @@ package com.leverx.leverxspringbootapp.controller;
 import com.leverx.leverxspringbootapp.exception.EntityAlreadyExist;
 import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
 import com.leverx.leverxspringbootapp.exception.EntityIsDead;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
@@ -36,18 +37,21 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityDoesntExist.class)
     public ResponseEntity<String> entityDoesNotExist(EntityDoesntExist ex) {
         String message = ex.getMessage();
+        log.warn(message);
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityAlreadyExist.class)
     public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex) {
         String message = ex.getMessage();
+        log.warn(message);
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityIsDead.class)
     public ResponseEntity<String> entityIsDead(EntityIsDead ex) {
         String message = ex.getMessage();
+        log.warn(message);
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 }

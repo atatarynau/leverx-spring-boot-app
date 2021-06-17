@@ -7,7 +7,7 @@ Content-Type: application/json
 {
   "firstName": "Alexandr",
   "lastName": "Dinaec",
-  "passportNumber": "HB2911101",
+  "passportNumber": "HB2911102",
   "phoneNumber": "+375291110033"
 }
 
@@ -22,6 +22,18 @@ Content-Type: application/json
   "lastName": "Morgen",
   "passportNumber": "HB2911105",
   "phoneNumber": "+375291110033"
+}
+
+###
+
+POST localhost:8080/owner/exchange
+Content-Type: application/json
+
+{
+    "firstOwnerId": 1,
+    "secondOwnerId": 2,
+    "firstOwnerPetId": 1,
+    "secondOwnerPetId": 2
 }
 
 ###
@@ -89,7 +101,7 @@ Content-Type: application/json
   "isTrained": "true",
   "age": "2",
   "breed": "Pec",
-  "ownerId": "1",
+  "ownerId": "2",
   "name": "Dogger"
 }
 
@@ -115,4 +127,4 @@ GET localhost:8080/pet/dog/1
 ###
 
 #DELETE
-DELETE localhost:8080/pet/dog/1
+DELETE localhost:8080/pet/dog/2

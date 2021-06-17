@@ -24,37 +24,31 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public Cat save(Cat cat, long ownerId) {
-        log.info("Save cat '" + cat + "' by owner id '" + ownerId + "'");
+        log.info(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
             cat.setOwner(owner);
             Cat catFromDb = catRepository.save(cat);
-            log.info("Cat '" + catFromDb + "' was saved.");
             return catFromDb;
         }
-        log.warn("Owner is dead.");
-        throw new EntityIsDead("Owner with id '" + ownerId + "' is dead.");
+        throw new EntityIsDead(String.format("Owner with id '%s' is dead.", ownerId));
     }
 
     @Override
     public Cat getById(long id) {
-        log.info("Find cat by id '" + id + "'");
-        Cat cat = catRepository.findById(id).orElseThrow(() -> {
-            log.warn("Cat with id '" + id + "' doesn't exist.");
-            return new EntityDoesntExist("Cat with id '" + id + "' doesn't exist.");
-        });
-        log.info("Cat '" + cat + "' was found.");
+        log.info(String.format("Try to find cat with id '%s'", id));
+        Cat cat = catRepository.findById(id).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
         return cat;
     }
 
     @Override
     public void deleteById(long id) {
+        log.info(String.format("Try to delete cat with id '%s'", id));
         if (catRepository.existsById(id)) {
             catRepository.deleteById(id);
-            log.info("Cat with id '" + id + "' was deleted.");
         } else {
-            log.warn("Cat with id '" + id + "' doesn't exist.");
-            throw new EntityDoesntExist("Cat with id '" + id + "' doesn't exist");
+            throw new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id));
         }
     }
 
@@ -62,11 +56,9 @@ public class CatServiceImpl implements CatService {
     public void update(Cat cat) {
         long id = cat.getId();
         if (catRepository.existsById(id)) {
-            Cat savedCat = catRepository.save(cat);
-            log.info("Cat '" + savedCat + "' was update.");
+            catRepository.save(cat);
         } else {
-            log.debug("Cat with id '" + id + "' doesn't exist");
-            throw new EntityDoesntExist("Cat with id '" + id + "' doesn't exist");
+            throw new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id));
         }
     }
 }

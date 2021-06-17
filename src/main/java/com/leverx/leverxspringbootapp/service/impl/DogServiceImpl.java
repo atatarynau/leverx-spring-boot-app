@@ -23,50 +23,42 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public Dog save(Dog dog, long ownerId) {
-        log.info("Save dog '" + dog + "' by owner id '" + ownerId + "'");
+        log.info(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
         if (ownerService.isAliveById(ownerId)) {
-            log.info("Owner is alive. Dog can be saved.");
             Owner owner = ownerService.getById(ownerId);
             dog.setOwner(owner);
             Dog dogFromDb = dogRepository.save(dog);
-            log.info("Dog '" + dogFromDb + "' was saved.");
             return dogFromDb;
         }
-        log.warn("Owner is dead.");
-        throw new EntityIsDead("Owner with id '" + ownerId + "' is dead.");
+        throw new EntityIsDead(String.format("Owner with id '%s' is dead.", ownerId));
     }
 
     @Override
     public Dog getById(long id) {
-        log.info("Find dog by id '" + id + "'");
-        Dog dog = dogRepository.findById(id).orElseThrow(() -> {
-            log.warn("Dog with id '" + id + "' doesn't exist.");
-            return new EntityDoesntExist("Dog with id '" + id + "' doesn't exist.");
-        });
-        log.info("Dog '" + dog + "' was found.");
+        log.info(String.format("Try to find dog by id '%s'", id));
+        Dog dog = dogRepository.findById(id).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist.", id)));
         return dog;
     }
 
     @Override
     public void deleteById(long id) {
+        log.info(String.format("Try to delete dog by id '%s'", id));
         if (dogRepository.existsById(id)) {
             dogRepository.deleteById(id);
-            log.info("Dog with id '" + id + "' was deleted.");
         } else {
-            log.info("Dog with id '" + id + "' doesn't exist.");
-            throw new EntityDoesntExist("Dog with id '" + id + "' doesn't exist");
+            throw new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id));
         }
     }
 
     @Override
     public void update(Dog dog) {
         long id = dog.getId();
+        log.info(String.format("Try to update dog by id '%s'", id));
         if (dogRepository.existsById(id)) {
             Dog savedDog = dogRepository.save(dog);
-            log.info("Dog '" + savedDog + "' was update.");
         } else {
-            log.debug("Dog with id '" + id + "' doesn't exist");
-            throw new EntityDoesntExist("Dog with id '" + id + "' doesn't exist");
+            throw new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id));
         }
     }
 }
