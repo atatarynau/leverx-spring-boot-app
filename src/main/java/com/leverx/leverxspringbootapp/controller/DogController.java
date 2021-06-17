@@ -5,53 +5,49 @@ import com.leverx.leverxspringbootapp.param.DogParam;
 import com.leverx.leverxspringbootapp.entity.Dog;
 import com.leverx.leverxspringbootapp.service.DogService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-@Slf4j
 @RestController
 @RequestMapping(path = "pet/dog")
 @AllArgsConstructor
 public class DogController {
 
+    public static final String DOG_GET_ID = "/{id}";
+    public static final String DOG_DELETE_ID = "/{id}";
+    public static final String DOG_UPDATE_ID = "/{id}";
+
     private final DogService dogService;
     private final DogParamConverter dogParamConverter;
 
-    @GetMapping(path = "{id}")
+    @GetMapping(DOG_GET_ID)
     public ResponseEntity<Dog> getById(@PathVariable("id") Long id) {
-        log.info(String.format("Try to find dog by id '%s'", id));
-        Dog byId = dogService.getById(id);
-        log.info("Dog was found. Dog: " + byId);
-        return new ResponseEntity<>(byId, HttpStatus.OK);
+        Dog dogById = dogService.getById(id);
+        return new ResponseEntity<>(dogById, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Dog> save(@Valid @RequestBody DogParam dogParam) {
-        log.info("Try to save dog: " + dogParam);
         long ownerId = dogParam.getOwnerId();
-        Dog dog = dogParamConverter.ToEntity(dogParam);
-        Dog save = dogService.save(dog, ownerId);
-        log.info("Dog was saved.");
-        return new ResponseEntity<>(save, HttpStatus.OK);
+        Dog dogEntity = dogParamConverter.toEntity(dogParam, Dog.class);
+        Dog dogFromBd = dogService.save(dogEntity, ownerId);
+        return new ResponseEntity<>(dogFromBd, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(DOG_DELETE_ID)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        log.info(String.format("Try to delete dog by id '%s'", id));
         dogService.deleteById(id);
-        log.info("Dog was delete.");
         return new ResponseEntity<>("Delete was performed", HttpStatus.OK);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(DOG_UPDATE_ID)
     public ResponseEntity<String> update(@PathVariable("id") Long id, @RequestBody DogParam dogParam) {
-        Dog dog = dogParamConverter.ToEntity(dogParam);
-        dog.setId(id);
-        dogService.update(dog);
+        Dog dogEntity = dogParamConverter.toEntity(dogParam, Dog.class);
+        dogEntity.setId(id);
+        dogService.update(dogEntity);
         return new ResponseEntity<>("Dog was update", HttpStatus.OK);
     }
 }

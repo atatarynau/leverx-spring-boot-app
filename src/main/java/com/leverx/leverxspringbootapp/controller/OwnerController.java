@@ -22,38 +22,44 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class OwnerController {
 
+    public static final String OWNER_GET_ID = "/{id}";
+    public static final String OWNER_DELETE_ID = "/{id}";
+    public static final String OWNER_UPDATE_ID = "/{id}";
+    public static final String OWNER_KILL_ID = "/kill/{id}";
+
     private final OwnerService ownerService;
     private final OwnerParamConverter ownerParamConverter;
 
-    @GetMapping(path = "{id}")
+    @GetMapping(OWNER_GET_ID)
     public ResponseEntity<Owner> getById(@PathVariable("id") Long id) {
-        Owner owner = ownerService.getById(id);
-        return new ResponseEntity<>(owner, HttpStatus.OK);
+        Owner ownerById = ownerService.getById(id);
+        return new ResponseEntity<>(ownerById, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Owner> save(@Valid @RequestBody OwnerParam ownerParam) {
-        Owner ownerEntity = ownerService.save(ownerParamConverter.toEntity(ownerParam));
-        return new ResponseEntity<>(ownerEntity, HttpStatus.OK);
+        Owner ownerEntity = ownerParamConverter.toEntity(ownerParam, Owner.class);
+        Owner ownerFromBd = ownerService.save(ownerEntity);
+        return new ResponseEntity<>(ownerFromBd, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(OWNER_DELETE_ID)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         ownerService.deleteById(id);
         return new ResponseEntity<>("Delete was performed", HttpStatus.OK);
     }
 
-    @PutMapping(path = "/kill/{id}")
+    @PutMapping(OWNER_KILL_ID)
     public ResponseEntity<String> killById(@PathVariable("id") Long id) {
         ownerService.killOwnerById(id);
         return new ResponseEntity<>("Owner with id " + id + "' was killed", HttpStatus.OK);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(OWNER_UPDATE_ID)
     public ResponseEntity<String> update(@PathVariable("id") Long id, @RequestBody OwnerParam ownerParam) {
-        Owner owner = ownerParamConverter.toEntity(ownerParam);
-        owner.setId(id);
-        ownerService.update(owner);
+        Owner ownerEntity = ownerParamConverter.toEntity(ownerParam, Owner.class);
+        ownerEntity.setId(id);
+        ownerService.update(ownerEntity);
         return new ResponseEntity<>("Owner was update", HttpStatus.OK);
     }
 }

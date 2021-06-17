@@ -60,9 +60,9 @@ PUT localhost:8080/pet/cat/1
 Content-Type: application/json
 
 {
-  "ownerId": "2",
-  "hasWool": "true",
-  "age": "2",
+  "ownerId": "1",
+  "hasWool": "false",
+  "age": "11",
   "breed": "Jone",
   "name": "Tuz"
 }
@@ -96,15 +96,15 @@ Content-Type: application/json
 ###
 
 #UPDATE
-PUT localhost:8080/pet/dog/1
+PUT localhost:8080/pet/dog/2
 Content-Type: application/json
 
 {
-  "isTrained": "true",
+  "isTrained": "false",
   "age": "2",
   "breed": "Pec",
-  "ownerId": "2",
-  "name": "Dogger"
+  "ownerId": "1",
+  "name": "Woody"
 }
 
 ###

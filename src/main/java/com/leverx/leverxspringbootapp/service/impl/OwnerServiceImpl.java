@@ -4,6 +4,7 @@ import com.leverx.leverxspringbootapp.exception.EntityAlreadyExist;
 import com.leverx.leverxspringbootapp.exception.EntityDoesntExist;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.entity.Pet;
+import com.leverx.leverxspringbootapp.exception.EntityIsDead;
 import com.leverx.leverxspringbootapp.repository.OwnerRepository;
 import com.leverx.leverxspringbootapp.service.OwnerService;
 import lombok.AllArgsConstructor;
@@ -87,12 +88,10 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void update(Owner owner) {
         long id = owner.getId();
-        if (ownerRepository.existsById(id)) {
-            Owner savedOwner = ownerRepository.save(owner);
-            log.info("Owner '" + savedOwner + "' was update.");
-        } else {
-            log.debug("Owner with id '" + id + "' doesn't exist");
-            throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
+        if(isAliveById(id)){
+            ownerRepository.save(owner);
+        }else {
+            throw new EntityIsDead("This owner is dead.");
         }
     }
 }
