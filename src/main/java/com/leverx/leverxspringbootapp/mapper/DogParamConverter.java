@@ -12,12 +12,12 @@ public class DogParamConverter {
 
     private final ModelMapper mapper;
 
-    public Dog ToEntity(DogParam dogParam){
+    public Dog ToEntity(DogParam dogParam) {
         Dog dog = mapper.map(dogParam, Dog.class);
         return dog;
     }
 
-    public DogParam ToDto(Dog dog){
+    public DogParam ToDto(Dog dog) {
         DogParam dogParam = mapper.map(dog, DogParam.class);
         return dogParam;
     }

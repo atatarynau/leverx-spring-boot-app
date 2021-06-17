@@ -20,31 +20,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatServiceImpl implements CatService {
 
     private final CatRepository catRepository;
-
     private final OwnerService ownerService;
 
     @Override
     public Cat save(Cat cat, long ownerId) {
-        log.info("Save cat '"+cat+"' by owner id '"+ownerId+"'");
-        if(ownerService.isAliveById(ownerId)){
+        log.info("Save cat '" + cat + "' by owner id '" + ownerId + "'");
+        if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
             cat.setOwner(owner);
             Cat catFromDb = catRepository.save(cat);
-            log.info("Cat '"+catFromDb+"' was saved.");
+            log.info("Cat '" + catFromDb + "' was saved.");
             return catFromDb;
         }
         log.warn("Owner is dead.");
-        throw new EntityIsDead("Owner with id '"+ownerId+"' is dead.");
+        throw new EntityIsDead("Owner with id '" + ownerId + "' is dead.");
     }
 
     @Override
-    public Cat getById(long id){
-        log.info("Find cat by id '"+id+"'");
+    public Cat getById(long id) {
+        log.info("Find cat by id '" + id + "'");
         Cat cat = catRepository.findById(id).orElseThrow(() -> {
             log.warn("Cat with id '" + id + "' doesn't exist.");
             return new EntityDoesntExist("Cat with id '" + id + "' doesn't exist.");
         });
-        log.info("Cat '"+cat+"' was found.");
+        log.info("Cat '" + cat + "' was found.");
         return cat;
     }
 
@@ -52,9 +51,9 @@ public class CatServiceImpl implements CatService {
     public void deleteById(long id) {
         if (catRepository.existsById(id)) {
             catRepository.deleteById(id);
-            log.info("Cat with id '"+id+"' was deleted.");
-        }else {
-            log.info("Cat with id '"+id+"' doesn't exist.");
+            log.info("Cat with id '" + id + "' was deleted.");
+        } else {
+            log.warn("Cat with id '" + id + "' doesn't exist.");
             throw new EntityDoesntExist("Cat with id '" + id + "' doesn't exist");
         }
     }
@@ -62,10 +61,10 @@ public class CatServiceImpl implements CatService {
     @Override
     public void update(Cat cat) {
         long id = cat.getId();
-        if(catRepository.existsById(id)) {
+        if (catRepository.existsById(id)) {
             Cat savedCat = catRepository.save(cat);
             log.info("Cat '" + savedCat + "' was update.");
-        }else {
+        } else {
             log.debug("Cat with id '" + id + "' doesn't exist");
             throw new EntityDoesntExist("Cat with id '" + id + "' doesn't exist");
         }

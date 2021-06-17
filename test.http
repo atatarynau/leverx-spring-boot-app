@@ -46,7 +46,7 @@ POST localhost:8080/pet/cat
 Content-Type: application/json
 
 {
-  "ownerId": "2",
+  "ownerId": "1",
   "hasWool": "true",
   "age": "2",
   "breed": "Jone",

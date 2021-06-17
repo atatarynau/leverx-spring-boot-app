@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,7 +48,7 @@ public abstract class Pet {
     }, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @ToString.Exclude
-    @JsonIgnore
+    @JsonBackReference
     private Owner owner;
 
     @Override

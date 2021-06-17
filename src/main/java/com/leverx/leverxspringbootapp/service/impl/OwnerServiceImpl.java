@@ -87,10 +87,10 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void update(Owner owner) {
         long id = owner.getId();
-        if(ownerRepository.existsById(id)) {
+        if (ownerRepository.existsById(id)) {
             Owner savedOwner = ownerRepository.save(owner);
             log.info("Owner '" + savedOwner + "' was update.");
-        }else {
+        } else {
             log.debug("Owner with id '" + id + "' doesn't exist");
             throw new EntityDoesntExist("Owner with id '" + id + "' doesn't exist");
         }

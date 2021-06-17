@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.exception;
 
-public class EntityDoesntExist extends RuntimeException{
+public class EntityDoesntExist extends RuntimeException {
 
     public EntityDoesntExist() {
         super();

@@ -19,32 +19,31 @@ import org.springframework.transaction.annotation.Transactional;
 public class DogServiceImpl implements DogService {
 
     private final OwnerService ownerService;
-
     private final DogRepository dogRepository;
 
     @Override
     public Dog save(Dog dog, long ownerId) {
-        log.info("Save dog '"+dog+"' by owner id '"+ownerId+"'");
-        if(ownerService.isAliveById(ownerId)){
+        log.info("Save dog '" + dog + "' by owner id '" + ownerId + "'");
+        if (ownerService.isAliveById(ownerId)) {
             log.info("Owner is alive. Dog can be saved.");
             Owner owner = ownerService.getById(ownerId);
             dog.setOwner(owner);
             Dog dogFromDb = dogRepository.save(dog);
-            log.info("Dog '"+dogFromDb+"' was saved.");
+            log.info("Dog '" + dogFromDb + "' was saved.");
             return dogFromDb;
         }
         log.warn("Owner is dead.");
-        throw new EntityIsDead("Owner with id '"+ownerId+"' is dead.");
+        throw new EntityIsDead("Owner with id '" + ownerId + "' is dead.");
     }
 
     @Override
-    public Dog getById(long id){
-        log.info("Find dog by id '"+id+"'");
+    public Dog getById(long id) {
+        log.info("Find dog by id '" + id + "'");
         Dog dog = dogRepository.findById(id).orElseThrow(() -> {
             log.warn("Dog with id '" + id + "' doesn't exist.");
             return new EntityDoesntExist("Dog with id '" + id + "' doesn't exist.");
         });
-        log.info("Dog '"+dog+"' was found.");
+        log.info("Dog '" + dog + "' was found.");
         return dog;
     }
 
@@ -52,9 +51,9 @@ public class DogServiceImpl implements DogService {
     public void deleteById(long id) {
         if (dogRepository.existsById(id)) {
             dogRepository.deleteById(id);
-            log.info("Dog with id '"+id+"' was deleted.");
-        }else {
-            log.info("Dog with id '"+id+"' doesn't exist.");
+            log.info("Dog with id '" + id + "' was deleted.");
+        } else {
+            log.info("Dog with id '" + id + "' doesn't exist.");
             throw new EntityDoesntExist("Dog with id '" + id + "' doesn't exist");
         }
     }
@@ -62,10 +61,10 @@ public class DogServiceImpl implements DogService {
     @Override
     public void update(Dog dog) {
         long id = dog.getId();
-        if(dogRepository.existsById(id)) {
+        if (dogRepository.existsById(id)) {
             Dog savedDog = dogRepository.save(dog);
             log.info("Dog '" + savedDog + "' was update.");
-        }else {
+        } else {
             log.debug("Dog with id '" + id + "' doesn't exist");
             throw new EntityDoesntExist("Dog with id '" + id + "' doesn't exist");
         }

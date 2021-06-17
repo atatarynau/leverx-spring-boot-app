@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.exception;
 
-public class EntityAlreadyExist extends RuntimeException{
+public class EntityAlreadyExist extends RuntimeException {
 
     public EntityAlreadyExist() {
         super();

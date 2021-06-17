@@ -12,12 +12,12 @@ public class CatParamConverter {
 
     private final ModelMapper mapper;
 
-    public Cat toEntity(CatParam catParam){
+    public Cat toEntity(CatParam catParam) {
         Cat cat = mapper.map(catParam, Cat.class);
         return cat;
     }
 
-    public CatParam toDto(Cat cat){
+    public CatParam toDto(Cat cat) {
         CatParam catParam = mapper.map(cat, CatParam.class);
         return catParam;
     }

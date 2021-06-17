@@ -34,19 +34,19 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntityDoesntExist.class)
-    public ResponseEntity<String> entityDoesNotExist(EntityDoesntExist ex){
+    public ResponseEntity<String> entityDoesNotExist(EntityDoesntExist ex) {
         String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityAlreadyExist.class)
-    public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex){
+    public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex) {
         String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityIsDead.class)
-    public ResponseEntity<String> entityIsDead(EntityIsDead ex){
+    public ResponseEntity<String> entityIsDead(EntityIsDead ex) {
         String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }

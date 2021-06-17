@@ -12,12 +12,12 @@ public class OwnerParamConverter {
 
     private final ModelMapper mapper;
 
-    public Owner toEntity(OwnerParam ownerParam){
+    public Owner toEntity(OwnerParam ownerParam) {
         Owner owner = mapper.map(ownerParam, Owner.class);
         return owner;
     }
 
-    public OwnerParam toDto(Owner owner){
+    public OwnerParam toDto(Owner owner) {
         OwnerParam ownerParam = mapper.map(owner, OwnerParam.class);
         return ownerParam;
     }

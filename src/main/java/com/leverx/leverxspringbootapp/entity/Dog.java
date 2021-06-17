@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-public class Dog extends Pet{
+public class Dog extends Pet {
 
     private boolean isTrained;
 

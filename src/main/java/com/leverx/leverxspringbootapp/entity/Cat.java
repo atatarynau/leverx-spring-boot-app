@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
 
 @NoArgsConstructor
@@ -15,8 +14,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-public class Cat extends Pet{
+public class Cat extends Pet {
 
-    @NotNull
     private boolean hasWool;
 }
