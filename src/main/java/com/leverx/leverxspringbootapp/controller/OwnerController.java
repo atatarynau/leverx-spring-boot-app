@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.controller;
 
-import com.leverx.leverxspringbootapp.mapper.OwnerParamConverter;
+import com.leverx.leverxspringbootapp.mapper.param.OwnerParamConverter;
 import com.leverx.leverxspringbootapp.param.OwnerParam;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.param.OwnerParamExchangePets;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 
 @RestController
@@ -66,7 +67,7 @@ public class OwnerController {
     }
 
     @PostMapping(OWNER_EXCHANGE_PETS)
-    public ResponseEntity<String> exchangePets(@RequestBody OwnerParamExchangePets ownerParamExchangePets){
+    public ResponseEntity<String> exchangePets(@RequestBody OwnerParamExchangePets ownerParamExchangePets) {
         ownerService.exchangePets(ownerParamExchangePets);
         return new ResponseEntity<>("Exchange was finished", HttpStatus.OK);
     }

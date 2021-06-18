@@ -26,6 +26,7 @@ public class DogServiceImpl implements DogService {
         log.info(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
+            dog.setId(0);
             dog.setOwner(owner);
             Dog dogFromDb = dogRepository.save(dog);
             return dogFromDb;
@@ -55,10 +56,19 @@ public class DogServiceImpl implements DogService {
     public void update(Dog dog) {
         long id = dog.getId();
         log.info(String.format("Try to update dog by id '%s'", id));
-        if (dogRepository.existsById(id)) {
-            Dog savedDog = dogRepository.save(dog);
+        if (this.isAliveById(id)) {
+            dogRepository.save(dog);
         } else {
             throw new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id));
         }
+    }
+
+    @Override
+    public boolean isAliveById(long id) {
+        log.info(String.format("Check that dog with id '%s' is alive", id));
+        Dog dog = dogRepository.findById(id).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id)));
+        boolean isAlive = dog.isAlive();
+        return isAlive;
     }
 }

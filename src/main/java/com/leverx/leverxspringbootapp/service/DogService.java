@@ -11,4 +11,6 @@ public interface DogService {
     void deleteById(long id);
 
     void update(Dog dog);
+
+    boolean isAliveById(long id);
 }

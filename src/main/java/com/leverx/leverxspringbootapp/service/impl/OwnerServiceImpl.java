@@ -28,6 +28,7 @@ public class OwnerServiceImpl implements OwnerService {
         log.info(String.format("Try to save owner '%s'", owner));
         String passportNumber = owner.getPassportNumber();
         if (!ownerRepository.existsByPassportNumber(passportNumber)) {
+            owner.setId(0);
             Owner ownerFromDb = ownerRepository.save(owner);
             return ownerFromDb;
         } else {
@@ -68,6 +69,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public boolean isAliveById(long id) {
+        log.info(String.format("Check that owner with id '%s' is alive", id));
         Owner owner = ownerRepository.findById(id).orElseThrow(() ->
             new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", id)));
         boolean isAlive = owner.isAlive();
@@ -77,7 +79,9 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void update(Owner owner) {
         long id = owner.getId();
-        if(isAliveById(id)){
+        log.info(String.format("Update owner with id '%s'", id));
+
+        if(this.isAliveById(id)){
             ownerRepository.save(owner);
         }else {
             throw new EntityIsDead("This owner is dead.");
@@ -91,6 +95,8 @@ public class OwnerServiceImpl implements OwnerService {
         long firstOwnerPetId = ownerParamExchangePets.getFirstOwnerPetId();
         long secondOwnerPetId = ownerParamExchangePets.getSecondOwnerPetId();
 
+        log.info(String.format("Exchange pets between owner with id '%s' and owner with id '%s'", firstOwnerId, secondOwnerId));
+
         Owner firstOwner = ownerRepository.findById(firstOwnerId).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", firstOwnerId)));
         Owner secondOwner = ownerRepository.findById(secondOwnerId).orElseThrow(() ->
@@ -100,10 +106,10 @@ public class OwnerServiceImpl implements OwnerService {
             Set<Pet> firstOwnerPets = firstOwner.getPets();
             Set<Pet> secondOwnerPets = secondOwner.getPets();
 
-            Pet firstPetById = findPetById(firstOwnerPetId, firstOwnerPets).orElseThrow(() ->
+            Pet firstPetById = this.findPetById(firstOwnerPetId, firstOwnerPets).orElseThrow(() ->
                     new EntityDoesntExist(String.format("Owner with id '%s' doesn't have pet with id '", firstOwnerId,
                             firstOwnerPetId)));
-            Pet secondPetById = findPetById(secondOwnerPetId, secondOwnerPets).orElseThrow(() ->
+            Pet secondPetById = this.findPetById(secondOwnerPetId, secondOwnerPets).orElseThrow(() ->
                     new EntityDoesntExist(String.format("Owner with id '%s' doesn't have pet with id '", secondOwnerId,
                             secondOwnerPetId)));
 
@@ -117,6 +123,7 @@ public class OwnerServiceImpl implements OwnerService {
 
             ownerRepository.save(firstOwner);
             ownerRepository.save(secondOwner);
+
         } else {
             throw new EntityIsDead("Owner is dead.");
         }

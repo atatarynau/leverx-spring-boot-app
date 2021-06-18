@@ -11,4 +11,6 @@ public interface CatService {
     void deleteById(long id);
 
     void update(Cat cat);
+
+    boolean isAliveById(long id);
 }

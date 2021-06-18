@@ -1,4 +1,4 @@
-package com.leverx.leverxspringbootapp.mapper;
+package com.leverx.leverxspringbootapp.mapper.param;
 
 
 import lombok.AllArgsConstructor;

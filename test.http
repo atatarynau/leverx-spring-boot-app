@@ -7,7 +7,7 @@ Content-Type: application/json
 {
   "firstName": "Alexandr",
   "lastName": "Dinaec",
-  "passportNumber": "HB2911101",
+  "passportNumber": "HB2911102",
   "phoneNumber": "+375291110033"
 }
 
@@ -33,7 +33,7 @@ Content-Type: application/json
     "firstOwnerId": 1,
     "secondOwnerId": 2,
     "firstOwnerPetId": 1,
-    "secondOwnerPetId": 2
+    "secondOwnerPetId": 5
 }
 
 ###
@@ -75,7 +75,7 @@ Content-Type: application/json
   "ownerId": "1",
   "hasWool": "false",
   "age": "11",
-  "breed": "Jone",
+  "breed": "Jooone",
   "name": "Tuz"
 }
 

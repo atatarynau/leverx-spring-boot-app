@@ -27,6 +27,7 @@ public class CatServiceImpl implements CatService {
         log.info(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
+            cat.setId(0);
             cat.setOwner(owner);
             Cat catFromDb = catRepository.save(cat);
             return catFromDb;
@@ -54,11 +55,21 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void update(Cat cat) {
+        log.info(String.format("Try to update cat with id '%s'", cat.getId()));
         long id = cat.getId();
-        if (catRepository.existsById(id)) {
+        if (this.isAliveById(id)) {
             catRepository.save(cat);
         } else {
-            throw new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id));
+            throw new EntityDoesntExist(String.format("Cat with id '%s' is dead", id));
         }
+    }
+
+    @Override
+    public boolean isAliveById(long id) {
+        log.info(String.format("Check that cat with id '%s' is alive", id));
+        Cat cat = catRepository.findById(id).orElseThrow(() ->
+                new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
+        boolean isAlive = cat.isAlive();
+        return isAlive;
     }
 }
