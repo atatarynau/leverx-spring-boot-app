@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.controller;
 
-import com.leverx.leverxspringbootapp.mapper.param.OwnerParamConverter;
+import com.leverx.leverxspringbootapp.mapper.OwnerParamConverter;
 import com.leverx.leverxspringbootapp.param.OwnerParam;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.param.OwnerParamExchangePets;

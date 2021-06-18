@@ -26,7 +26,6 @@ public class DogServiceImpl implements DogService {
         log.info(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
-            dog.setId(0);
             dog.setOwner(owner);
             Dog dogFromDb = dogRepository.save(dog);
             return dogFromDb;

@@ -1,4 +1,4 @@
-package com.leverx.leverxspringbootapp.mapper.param;
+package com.leverx.leverxspringbootapp.mapper;
 
 import com.leverx.leverxspringbootapp.entity.Owner;
 import org.modelmapper.ModelMapper;

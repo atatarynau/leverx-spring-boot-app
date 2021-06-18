@@ -27,7 +27,6 @@ public class CatServiceImpl implements CatService {
         log.info(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
-            cat.setId(0);
             cat.setOwner(owner);
             Cat catFromDb = catRepository.save(cat);
             return catFromDb;

@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.controller;
 
-import com.leverx.leverxspringbootapp.mapper.param.DogParamConverter;
+import com.leverx.leverxspringbootapp.mapper.DogParamConverter;
 import com.leverx.leverxspringbootapp.param.DogParam;
 import com.leverx.leverxspringbootapp.entity.Dog;
 import com.leverx.leverxspringbootapp.service.DogService;

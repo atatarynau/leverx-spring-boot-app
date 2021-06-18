@@ -28,7 +28,6 @@ public class OwnerServiceImpl implements OwnerService {
         log.info(String.format("Try to save owner '%s'", owner));
         String passportNumber = owner.getPassportNumber();
         if (!ownerRepository.existsByPassportNumber(passportNumber)) {
-            owner.setId(0);
             Owner ownerFromDb = ownerRepository.save(owner);
             return ownerFromDb;
         } else {

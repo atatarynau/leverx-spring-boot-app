@@ -1,6 +1,6 @@
 package com.leverx.leverxspringbootapp.controller;
 
-import com.leverx.leverxspringbootapp.mapper.param.CatParamConverter;
+import com.leverx.leverxspringbootapp.mapper.CatParamConverter;
 import com.leverx.leverxspringbootapp.param.CatParam;
 import com.leverx.leverxspringbootapp.entity.Cat;
 import com.leverx.leverxspringbootapp.service.CatService;
