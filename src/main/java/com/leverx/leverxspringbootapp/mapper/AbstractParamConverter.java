@@ -17,7 +17,7 @@ public abstract class AbstractParamConverter<E>{
         return mapper.map(param, clazz);
     }
 
-    public <P> P toParam(E model, Class<P> clazz){
-        return mapper.map(model, clazz);
+    public <P> P toParam(E entity, Class<P> clazz){
+        return mapper.map(entity, clazz);
     }
 }
