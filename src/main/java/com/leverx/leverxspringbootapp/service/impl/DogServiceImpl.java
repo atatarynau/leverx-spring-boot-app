@@ -7,22 +7,23 @@ import com.leverx.leverxspringbootapp.exception.EntityIsDead;
 import com.leverx.leverxspringbootapp.repository.DogRepository;
 import com.leverx.leverxspringbootapp.service.DogService;
 import com.leverx.leverxspringbootapp.service.OwnerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DogServiceImpl implements DogService {
 
     private final OwnerService ownerService;
     private final DogRepository dogRepository;
 
+    @Transactional
     @Override
     public Dog save(Dog dog, long ownerId) {
+
         log.info(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
@@ -33,16 +34,20 @@ public class DogServiceImpl implements DogService {
         throw new EntityIsDead(String.format("Owner with id '%s' is dead.", ownerId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Dog getById(long id) {
+
         log.info(String.format("Try to find dog by id '%s'", id));
         Dog dog = dogRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist.", id)));
         return dog;
     }
 
+    @Transactional
     @Override
     public void deleteById(long id) {
+
         log.info(String.format("Try to delete dog by id '%s'", id));
         if (dogRepository.existsById(id)) {
             dogRepository.deleteById(id);
@@ -51,8 +56,10 @@ public class DogServiceImpl implements DogService {
         }
     }
 
+    @Transactional
     @Override
     public void update(Dog dog) {
+
         long id = dog.getId();
         log.info(String.format("Try to update dog by id '%s'", id));
         if (this.isAliveById(id)) {
@@ -62,8 +69,10 @@ public class DogServiceImpl implements DogService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean isAliveById(long id) {
+
         log.info(String.format("Check that dog with id '%s' is alive", id));
         Dog dog = dogRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id)));

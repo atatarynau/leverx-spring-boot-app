@@ -26,32 +26,36 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
+
         Map<String, String> errors = new HashMap<>();
         List<FieldError> fieldErrors = ex.getFieldErrors();
         for (FieldError fieldError : fieldErrors) {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(EntityDoesntExist.class)
     public ResponseEntity<String> entityDoesNotExist(EntityDoesntExist ex) {
+
         String message = ex.getMessage();
         log.warn(message);
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(message);
     }
 
     @ExceptionHandler(EntityAlreadyExist.class)
     public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex) {
+
         String message = ex.getMessage();
         log.warn(message);
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(message);
     }
 
     @ExceptionHandler(EntityIsDead.class)
     public ResponseEntity<String> entityIsDead(EntityIsDead ex) {
+
         String message = ex.getMessage();
         log.warn(message);
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(message);
     }
 }

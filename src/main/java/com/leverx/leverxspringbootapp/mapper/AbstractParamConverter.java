@@ -1,13 +1,10 @@
 package com.leverx.leverxspringbootapp.mapper;
 
-
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-
-
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
 public abstract class AbstractParamConverter<E>{
 

@@ -7,23 +7,24 @@ import com.leverx.leverxspringbootapp.exception.EntityIsDead;
 import com.leverx.leverxspringbootapp.repository.CatRepository;
 import com.leverx.leverxspringbootapp.service.CatService;
 import com.leverx.leverxspringbootapp.service.OwnerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@Transactional
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CatServiceImpl implements CatService {
 
     private final CatRepository catRepository;
     private final OwnerService ownerService;
 
     @Override
+    @Transactional
     public Cat save(Cat cat, long ownerId) {
+
         log.info(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
@@ -35,7 +36,9 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cat getById(long id) {
+
         log.info(String.format("Try to find cat with id '%s'", id));
         Cat cat = catRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
@@ -43,7 +46,9 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
+
         log.info(String.format("Try to delete cat with id '%s'", id));
         if (catRepository.existsById(id)) {
             catRepository.deleteById(id);
@@ -53,7 +58,9 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
+    @Transactional
     public void update(Cat cat) {
+
         log.info(String.format("Try to update cat with id '%s'", cat.getId()));
         long id = cat.getId();
         if (this.isAliveById(id)) {
@@ -64,7 +71,9 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isAliveById(long id) {
+
         log.info(String.format("Check that cat with id '%s' is alive", id));
         Cat cat = catRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
