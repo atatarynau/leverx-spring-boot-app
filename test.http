@@ -1,7 +1,7 @@
 ################################################### OWNER
 
 #SAVE
-POST localhost:8080/owner
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 ###
 
 #UPDATE
-PUT localhost:8080/owner/1
+PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/1
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 ###
 
-POST localhost:8080/owner/exchange
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/exchange
 Content-Type: application/json
 
 {
@@ -39,22 +39,22 @@ Content-Type: application/json
 ###
 
 #GET
-GET localhost:8080/owner/1
+GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/1
 
 ###
 
 #DELETE
-DELETE localhost:8080/owner/1
+DELETE https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/1
 
 ###
 
 #KILL
-PUT localhost:8080/owner/kill/1
+PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/kill/1
 
 ################################################### CAT
 
 #SAVE
-POST localhost:8080/pet/cat
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
 ###
 
 #UPDATE
-PUT localhost:8080/pet/cat/1
+PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat/1
 Content-Type: application/json
 
 {
@@ -82,19 +82,19 @@ Content-Type: application/json
 ###
 
 #GET
-GET localhost:8080/pet/cat/1
+GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat/2
 
 ###
 
 #DELETE
-DELETE localhost:8080/pet/cat/1
+DELETE https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat/2
 
 ###
 
 ########################################### DOG
 
 #SAVE
-POST localhost:8080/pet/dog
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog
 Content-Type: application/json
 
 {
@@ -108,7 +108,7 @@ Content-Type: application/json
 ###
 
 #UPDATE
-PUT localhost:8080/pet/dog/2
+PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog/2
 Content-Type: application/json
 
 {
@@ -122,9 +122,9 @@ Content-Type: application/json
 ###
 
 #GET
-GET localhost:8080/pet/dog/1
+GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog/1
 
 ###
 
 #DELETE
-DELETE localhost:8080/pet/dog/2
+DELETE https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog/2

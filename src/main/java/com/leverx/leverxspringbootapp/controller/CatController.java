@@ -5,7 +5,6 @@ import com.leverx.leverxspringbootapp.param.CatParam;
 import com.leverx.leverxspringbootapp.entity.Cat;
 import com.leverx.leverxspringbootapp.service.CatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,7 @@ public class CatController {
     public ResponseEntity<Cat> getById(@PathVariable("id") Long id) {
 
         Cat catById = catService.getById(id);
-        return new ResponseEntity<>(catById, HttpStatus.OK);
+        return ResponseEntity.ok(catById);
     }
 
     @PostMapping

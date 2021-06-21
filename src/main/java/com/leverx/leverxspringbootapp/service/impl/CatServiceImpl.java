@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -63,7 +65,10 @@ public class CatServiceImpl implements CatService {
 
         log.info(String.format("Try to update cat with id '%s'", cat.getId()));
         long id = cat.getId();
-        if (this.isAliveById(id)) {
+        Cat catFromBd = catRepository.findById(id).orElseThrow(()-> new EntityDoesntExist(String.format("Cat with id '%s'" +
+                " doesn't exist", id)));
+        if (catFromBd.isAlive()) {
+            cat.setOwner(catFromBd.getOwner());
             catRepository.save(cat);
         } else {
             throw new EntityDoesntExist(String.format("Cat with id '%s' is dead", id));
@@ -75,8 +80,7 @@ public class CatServiceImpl implements CatService {
     public boolean isAliveById(long id) {
 
         log.info(String.format("Check that cat with id '%s' is alive", id));
-        Cat cat = catRepository.findById(id).orElseThrow(() ->
-                new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
+        Cat cat = this.getById(id);
         boolean isAlive = cat.isAlive();
         return isAlive;
     }

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -62,11 +63,11 @@ public class DogServiceImpl implements DogService {
 
         long id = dog.getId();
         log.info(String.format("Try to update dog by id '%s'", id));
-        if (this.isAliveById(id)) {
+        Dog dogFromBd = dogRepository.findById(id).orElseThrow(()-> new EntityDoesntExist(String.format("Dog with id " +
+                "'%s' doesn't exist", id)));
+        if (dogFromBd.isAlive()) {
             dogRepository.save(dog);
-        } else {
-            throw new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id));
-        }
+        } else throw new EntityDoesntExist(String.format("Dog with id '%s' is dead", id));
     }
 
     @Transactional(readOnly = true)
@@ -74,8 +75,7 @@ public class DogServiceImpl implements DogService {
     public boolean isAliveById(long id) {
 
         log.info(String.format("Check that dog with id '%s' is alive", id));
-        Dog dog = dogRepository.findById(id).orElseThrow(() ->
-                new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist", id)));
+        Dog dog = this.getById(id);
         boolean isAlive = dog.isAlive();
         return isAlive;
     }

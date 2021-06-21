@@ -1,7 +1,6 @@
 package com.leverx.leverxspringbootapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,13 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "owners")
 public class Owner {
 
     @Id
@@ -29,14 +29,19 @@ public class Owner {
     @Column(name = "owner_id")
     private long id;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "passport_number")
     private String passportNumber;
 
+    @Column(name = "is_alive")
     private boolean isAlive = true;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

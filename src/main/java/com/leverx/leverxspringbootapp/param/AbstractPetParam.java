@@ -24,7 +24,7 @@ public abstract class AbstractPetParam {
 
     @Size(max = 130, message = "Incorrect age")
     @NotNull
-    private int age;
+    private String age;
 
     @NotNull
     private long ownerId;

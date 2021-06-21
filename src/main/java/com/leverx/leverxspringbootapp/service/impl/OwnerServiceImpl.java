@@ -63,8 +63,7 @@ public class OwnerServiceImpl implements OwnerService {
     public void killOwnerById(long id) {
 
         log.info(String.format("Kill owner by id '%s'", id));
-        Owner owner = ownerRepository.findById(id).orElseThrow(() ->
-            new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", id)));
+        Owner owner = this.getById(id);
         owner.setAlive(false);
         Set<Pet> pets = owner.getPets();
         for (Pet pet : pets) {
@@ -78,8 +77,7 @@ public class OwnerServiceImpl implements OwnerService {
     public boolean isAliveById(long id) {
 
         log.info(String.format("Check that owner with id '%s' is alive", id));
-        Owner owner = ownerRepository.findById(id).orElseThrow(() ->
-            new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", id)));
+        Owner owner = this.getById(id);
         boolean isAlive = owner.isAlive();
         return isAlive;
     }
@@ -90,7 +88,6 @@ public class OwnerServiceImpl implements OwnerService {
 
         long id = owner.getId();
         log.info(String.format("Update owner with id '%s'", id));
-
         if(this.isAliveById(id)){
             ownerRepository.save(owner);
         }else {
@@ -108,10 +105,10 @@ public class OwnerServiceImpl implements OwnerService {
         long secondOwnerPetId = ownerParamExchangePets.getSecondOwnerPetId();
 
         log.info(String.format("Exchange pets between owner with id '%s' and owner with id '%s'", firstOwnerId, secondOwnerId));
-        Owner firstOwner = ownerRepository.findById(firstOwnerId).orElseThrow(() ->
-                new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", firstOwnerId)));
-        Owner secondOwner = ownerRepository.findById(secondOwnerId).orElseThrow(() ->
-                new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist", secondOwnerId)));
+
+        Owner firstOwner = this.getById(firstOwnerId);
+        Owner secondOwner = this.getById(secondOwnerId);
+
         if (firstOwner.isAlive() && secondOwner.isAlive()) {
             Set<Pet> firstOwnerPets = firstOwner.getPets();
             Set<Pet> secondOwnerPets = secondOwner.getPets();
@@ -141,6 +138,7 @@ public class OwnerServiceImpl implements OwnerService {
         Pet pet = petById.orElseThrow(() -> new EntityDoesntExist("Owner doesn't have pet with id "+id));
         return pet;
     }
+
 
 
 
