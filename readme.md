@@ -1,8 +1,8 @@
 # Pets service
 
 * [Description](#description)
-* [Resource components](#resource components)
-* [How to run on SAP Cloud Foundry](#how to run on SAP Cloud Foundry)
+* [Resource components](#Resource components)
+* [How to run on SAP Cloud Foundry](#How to run on SAP Cloud Foundry)
 
 
 ## Description
@@ -95,3 +95,5 @@ The main resource components supports Pet service:
 
 
 
+
+[reference]: #resource components
