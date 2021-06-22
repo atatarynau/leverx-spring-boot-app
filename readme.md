@@ -83,17 +83,3 @@ The main resource components supports Pet service:
    ```
    
 7. To get link on your service open dev space.
-
-
-
-
-
-
-
-
-
-
-
-
-
-[reference]: #resource components
