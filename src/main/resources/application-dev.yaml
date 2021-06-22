@@ -2,5 +2,8 @@ spring:
   h2:
     console:
       enabled: true
+      settings:
+        web-allow-others: true
   jpa:
     show-sql: true
+
