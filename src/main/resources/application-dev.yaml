@@ -7,3 +7,8 @@ spring:
   jpa:
     show-sql: true
 
+logging:
+  level:
+    com.leverx.leverxspringbootapp: DEBUG
+
+

@@ -7,3 +7,7 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+
+logging:
+  level:
+    com.leverx.leverxspringbootapp: INFO
