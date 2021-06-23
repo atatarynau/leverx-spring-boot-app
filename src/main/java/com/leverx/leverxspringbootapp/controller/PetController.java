@@ -23,21 +23,21 @@ public class PetController {
     private final PetService petService;
 
     @GetMapping(PET_PATH_ID)
-    public ResponseEntity<Pet> getById(@PathVariable("id") Long id){
+    public ResponseEntity<Pet> getById(@PathVariable("id") Long id) {
 
         Pet pet = petService.getById(id);
         return ResponseEntity.ok(pet);
     }
 
     @GetMapping(PET_PATH_GET_ALL)
-    public ResponseEntity<List<Pet>> getAll(){
+    public ResponseEntity<List<Pet>> getAll() {
 
         List<Pet> pets = petService.getAllPets();
         return ResponseEntity.ok(pets);
     }
 
     @DeleteMapping(PET_PATH_ID)
-    public ResponseEntity<List<Pet>> deleteById(@PathVariable("id") Long id){
+    public ResponseEntity<List<Pet>> deleteById(@PathVariable("id") Long id) {
 
         petService.delete(id);
         return ResponseEntity.noContent().build();
