@@ -132,6 +132,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     private Pet findPetById(long id, Set<Pet> ownerPets){
 
+        log.debug(String.format("Find pet by id '%s'", id));
         Optional<Pet> petById = ownerPets.stream()
                 .filter(pet -> pet.getId() == id)
                 .findFirst();
