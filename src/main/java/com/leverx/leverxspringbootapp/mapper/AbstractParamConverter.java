@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public abstract class AbstractParamConverter<E>{
+public abstract class AbstractParamConverter<E, P>{
 
     private final ModelMapper mapper;
 
-    public <P> E toEntity(P param, Class<E> clazz){
+    public E toEntity(P param, Class<E> clazz){
         return mapper.map(param, clazz);
     }
 
-    public <P> P toParam(E entity, Class<P> clazz){
+    public P toParam(E entity, Class<P> clazz){
         return mapper.map(entity, clazz);
     }
 }
