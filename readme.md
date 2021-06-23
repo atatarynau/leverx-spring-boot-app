@@ -15,8 +15,9 @@ It can be run on SAP Cloud Foundry.
 The main resource components supports Pet service:
 
 - Owner
-- Dog
-- Cat
+- Pet
+  - Dog
+  - Cat
 
 ### Owner
 
@@ -29,23 +30,33 @@ The main resource components supports Pet service:
 | `/owner/kill{id}`  |   `PUT`   | kill owner by id |
 | `/owner/exchange`  |   `POST`  | kill owner by id |
 
+### Pet
+
+| resource | method | description |
+|:-----------------|:------------------|:------------------|
+| `pet/{id}`      |   `GET`   | return information about pet by id |
+| `pet/all`       |   `GET`   | get all pets |
+| `pet/{id}`      |  `DELETE` | delete pet by id |
+
 ### Dog
 
 | resource | method | description |
 |:-----------------|:------------------|:------------------|
-| `/dog/{id}`      |   `GET`   | return information about dog by id |
-| `/dog`           |   `POST`  | save dog |
-| `/dog/{id}`      |   `PUT`   | update dog by id |
-| `/dog/{id}`      |  `DELETE` | delete dog by id |
+| `pet/dog/{id}`      |   `GET`   | return information about dog by id |
+| `pet/dog`           |   `POST`  | save dog |
+| `pet/dog/{id}`      |   `PUT`   | update dog by id |
+| `pet/dog/{id}`      |  `DELETE` | delete dog by id |
 
 ### Cat
 
 | resource | method | description |
 |:-----------------|:------------------|:------------------|
-| `/cat/{id}`      |   `GET`   | return information about cat by id |
-| `/cat`           |   `POST`  | save cat |
-| `/cat/{id}`      |   `PUT`   | update cat by id |
-| `/cat/{id}`      |  `DELETE` | delete cat by id |
+| `pet/cat/{id}`      |   `GET`   | return information about cat by id |
+| `pet/cat`           |   `POST`  | save cat |
+| `pet/cat/{id}`      |   `PUT`   | update cat by id |
+| `pet/cat/{id}`      |  `DELETE` | delete cat by id |
+
+All requests available in [Postman](https://www.getpostman.com/collections/f9fbe3cc98ad34cdc009)
 
 ## How to run on SAP Cloud Foundry
 
@@ -83,3 +94,6 @@ The main resource components supports Pet service:
    ```
    
 7. To get link on your service open dev space.
+
+
+
