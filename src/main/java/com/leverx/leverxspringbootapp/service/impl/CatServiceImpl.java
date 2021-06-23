@@ -25,7 +25,7 @@ public class CatServiceImpl implements CatService {
     @Transactional
     public Cat save(Cat cat, long ownerId) {
 
-        log.info(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
+        log.debug(String.format("Try to save cat '%s' by owner id '%s'", cat, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
             cat.setOwner(owner);
@@ -39,7 +39,7 @@ public class CatServiceImpl implements CatService {
     @Transactional(readOnly = true)
     public Cat getById(long id) {
 
-        log.info(String.format("Try to find cat with id '%s'", id));
+        log.debug(String.format("Try to find cat with id '%s'", id));
         Cat cat = catRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Cat with id '%s' doesn't exist", id)));
         return cat;
@@ -49,7 +49,7 @@ public class CatServiceImpl implements CatService {
     @Transactional
     public void deleteById(long id) {
 
-        log.info(String.format("Try to delete cat with id '%s'", id));
+        log.debug(String.format("Try to delete cat with id '%s'", id));
         if (catRepository.existsById(id)) {
             catRepository.deleteById(id);
         } else {
@@ -61,7 +61,7 @@ public class CatServiceImpl implements CatService {
     @Transactional
     public void update(Cat cat) {
 
-        log.info(String.format("Try to update cat with id '%s'", cat.getId()));
+        log.debug(String.format("Try to update cat with id '%s'", cat.getId()));
         long id = cat.getId();
         Cat catFromBd = catRepository.findById(id).orElseThrow(()-> new EntityDoesntExist(String.format("Cat with id '%s'" +
                 " doesn't exist", id)));
@@ -77,7 +77,7 @@ public class CatServiceImpl implements CatService {
     @Transactional(readOnly = true)
     public boolean isAliveById(long id) {
 
-        log.info(String.format("Check that cat with id '%s' is alive", id));
+        log.debug(String.format("Check that cat with id '%s' is alive", id));
         Cat cat = this.getById(id);
         boolean isAlive = cat.isAlive();
         return isAlive;

@@ -25,7 +25,7 @@ public class DogServiceImpl implements DogService {
     @Override
     public Dog save(Dog dog, long ownerId) {
 
-        log.info(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
+        log.debug(String.format("Try to save dog '%s' by owner id '%s'", dog, ownerId));
         if (ownerService.isAliveById(ownerId)) {
             Owner owner = ownerService.getById(ownerId);
             dog.setOwner(owner);
@@ -39,7 +39,7 @@ public class DogServiceImpl implements DogService {
     @Override
     public Dog getById(long id) {
 
-        log.info(String.format("Try to find dog by id '%s'", id));
+        log.debug(String.format("Try to find dog by id '%s'", id));
         Dog dog = dogRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Dog with id '%s' doesn't exist.", id)));
         return dog;
@@ -49,7 +49,7 @@ public class DogServiceImpl implements DogService {
     @Override
     public void deleteById(long id) {
 
-        log.info(String.format("Try to delete dog by id '%s'", id));
+        log.debug(String.format("Try to delete dog by id '%s'", id));
         if (dogRepository.existsById(id)) {
             dogRepository.deleteById(id);
         } else {
@@ -62,7 +62,7 @@ public class DogServiceImpl implements DogService {
     public void update(Dog dog) {
 
         long id = dog.getId();
-        log.info(String.format("Try to update dog by id '%s'", id));
+        log.debug(String.format("Try to update dog by id '%s'", id));
         Dog dogFromBd = dogRepository.findById(id).orElseThrow(()-> new EntityDoesntExist(String.format("Dog with id " +
                 "'%s' doesn't exist", id)));
         if (dogFromBd.isAlive()) {
@@ -74,7 +74,7 @@ public class DogServiceImpl implements DogService {
     @Override
     public boolean isAliveById(long id) {
 
-        log.info(String.format("Check that dog with id '%s' is alive", id));
+        log.debug(String.format("Check that dog with id '%s' is alive", id));
         Dog dog = this.getById(id);
         boolean isAlive = dog.isAlive();
         return isAlive;

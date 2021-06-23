@@ -39,7 +39,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> entityDoesNotExist(EntityDoesntExist ex) {
 
         String message = ex.getMessage();
-        log.info(message);
+        log.debug(message);
         return ResponseEntity.badRequest().body(message);
     }
 
@@ -47,7 +47,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> entityAlreadyExist(EntityAlreadyExist ex) {
 
         String message = ex.getMessage();
-        log.info(message);
+        log.debug(message);
         return ResponseEntity.badRequest().body(message);
     }
 
@@ -55,7 +55,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> entityIsDead(EntityIsDead ex) {
 
         String message = ex.getMessage();
-        log.info(message);
+        log.debug(message);
         return ResponseEntity.badRequest().body(message);
     }
 }

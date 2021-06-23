@@ -26,7 +26,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Owner save(Owner owner) {
 
-        log.info(String.format("Try to save owner '%s'", owner));
+        log.debug(String.format("Try to save owner '%s'", owner));
         String passportNumber = owner.getPassportNumber();
         if (!ownerRepository.existsByPassportNumber(passportNumber)) {
             Owner ownerFromDb = ownerRepository.save(owner);
@@ -40,7 +40,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Owner getById(long id) {
 
-        log.info(String.format("Try to get owner by id '%s'", id));
+        log.debug(String.format("Try to get owner by id '%s'", id));
         Owner owner = ownerRepository.findById(id).orElseThrow(() ->
                 new EntityDoesntExist(String.format("Owner with id '%s' doesn't exist.", id)));
         return owner;
@@ -50,7 +50,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void deleteById(long id) {
 
-        log.info(String.format("Try to delete owner by id '%s'", id));
+        log.debug(String.format("Try to delete owner by id '%s'", id));
         if (ownerRepository.existsById(id)) {
             ownerRepository.deleteById(id);
         } else {
@@ -62,7 +62,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void killOwnerById(long id) {
 
-        log.info(String.format("Kill owner by id '%s'", id));
+        log.debug(String.format("Kill owner by id '%s'", id));
         Owner owner = this.getById(id);
         owner.setAlive(false);
         Set<Pet> pets = owner.getPets();
@@ -76,7 +76,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public boolean isAliveById(long id) {
 
-        log.info(String.format("Check that owner with id '%s' is alive", id));
+        log.debug(String.format("Check that owner with id '%s' is alive", id));
         Owner owner = this.getById(id);
         boolean isAlive = owner.isAlive();
         return isAlive;
@@ -87,7 +87,7 @@ public class OwnerServiceImpl implements OwnerService {
     public void update(Owner owner) {
 
         long id = owner.getId();
-        log.info(String.format("Update owner with id '%s'", id));
+        log.debug(String.format("Update owner with id '%s'", id));
         if(this.isAliveById(id)){
             ownerRepository.save(owner);
         }else {
@@ -104,7 +104,7 @@ public class OwnerServiceImpl implements OwnerService {
         long firstOwnerPetId = ownerParamExchangePets.getFirstOwnerPetId();
         long secondOwnerPetId = ownerParamExchangePets.getSecondOwnerPetId();
 
-        log.info(String.format("Exchange pets between owner with id '%s' and owner with id '%s'", firstOwnerId, secondOwnerId));
+        log.debug(String.format("Exchange pets between owner with id '%s' and owner with id '%s'", firstOwnerId, secondOwnerId));
 
         Owner firstOwner = this.getById(firstOwnerId);
         Owner secondOwner = this.getById(secondOwnerId);

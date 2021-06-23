@@ -20,7 +20,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet getById(long id) {
 
-        log.info(String.format("Try to find pet by id '%s'", id));
+        log.debug(String.format("Try to find pet by id '%s'", id));
         Pet petFromBd = petRepository.findById(id).orElseThrow(() -> new EntityDoesntExist(String.format("Pet with id '%s'" +
                 " doesn't exist", id)));
         return petFromBd;
@@ -29,7 +29,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public void delete(long id) {
 
-        log.info(String.format("Try to delete pet by id '%s'", id));
+        log.debug(String.format("Try to delete pet by id '%s'", id));
         if (petRepository.existsById(id)) {
             petRepository.deleteById(id);
         } else {
@@ -40,7 +40,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public List<Pet> getAllPets() {
 
-        log.info("Try to find all pets");
+        log.debug("Try to find all pets");
         List<Pet> allPets = petRepository.findAll();
         return allPets;
     }
