@@ -128,3 +128,8 @@ GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog/1
 
 #DELETE
 DELETE https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/dog/2
+
+###
+
+#GET
+DELETE https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/1

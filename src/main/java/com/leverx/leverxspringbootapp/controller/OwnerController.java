@@ -25,8 +25,8 @@ import javax.validation.Valid;
 public class OwnerController {
 
     public static final String OWNER_PATH_ID = "/{id}";
-    public static final String OWNER_KILL_ID = "/kill/{id}";
-    public static final String OWNER_EXCHANGE_PETS = "/exchange";
+    public static final String OWNER_PATH_KILL_ID = "/kill/{id}";
+    public static final String OWNER_PATH_EXCHANGE_PETS = "/exchange";
 
     private final OwnerService ownerService;
     private final OwnerParamConverter ownerParamConverter;
@@ -54,7 +54,7 @@ public class OwnerController {
         return ResponseEntity.ok("Delete was performed");
     }
 
-    @PutMapping(OWNER_KILL_ID)
+    @PutMapping(OWNER_PATH_KILL_ID)
     public ResponseEntity<String> killById(@PathVariable("id") Long id) {
 
         ownerService.killOwnerById(id);
@@ -70,7 +70,7 @@ public class OwnerController {
         return ResponseEntity.ok("Owner was update");
     }
 
-    @PostMapping(OWNER_EXCHANGE_PETS)
+    @PostMapping(OWNER_PATH_EXCHANGE_PETS)
     public ResponseEntity<String> exchangePets(@RequestBody OwnerParamExchangePets ownerParamExchangePets) {
 
         ownerService.exchangePets(ownerParamExchangePets);
