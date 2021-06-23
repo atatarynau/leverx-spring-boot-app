@@ -3,7 +3,6 @@ applications:
   - name: spring-boot-pets
     instances: 1
     memory: 1G
-    disk_quota: 1G
     path: target/leverx-spring-boot-app-0.0.1-SNAPSHOT.war
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
     services:

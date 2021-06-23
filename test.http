@@ -101,7 +101,7 @@ Content-Type: application/json
   "isTrained": "true",
   "age": "2",
   "breed": "Pec",
-  "ownerId": "2",
+  "ownerId": "1",
   "name": "Dogger"
 }
 
