@@ -110,6 +110,9 @@ applications:
     memory: 1G
     path: target/leverx-spring-boot-app-0.0.1-SNAPSHOT.war
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
+    services: 
+        - my-logs
+        - postgre
 ```
 
 1. To start you must register on [SAP](https://www.sap.com/).
@@ -135,7 +138,22 @@ applications:
       cf password {password}
    ```
 
-6. Package project with necessary profile.
+6. Package project with cloud profile:
+
+    ```
+       mvn package -Pcloud -Dmaven.test.skip=true
+    ```
+
+6. Create necessary services (PostgreSQL with name **posgre** and Application logger with name 
+   **my-logs**) on SAP Cloud:
+
+    ```
+        cf create-service postgresql-db trial postgre
+    ```
+
+    ```
+        cf create-service application-logs trial my-logs 
+    ```
    
 6. Now you can push application on SAP Cloud Foundry.
    
