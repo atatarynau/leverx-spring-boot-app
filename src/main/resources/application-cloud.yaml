@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${vcap.services.postgresql-db.credentials.url}
+    username: ${vcap.services.postgresql-db.credentials.username}
+    password: ${vcap.services.postgresql-db.credentials.password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+
+

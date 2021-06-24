@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/pet/cat")
+@RequestMapping(path = "/pets/cats")
 @RequiredArgsConstructor
 public class CatController {
 

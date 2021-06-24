@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/owner")
+@RequestMapping(path = "/owners")
 @RequiredArgsConstructor
 public class OwnerController {
 

@@ -103,5 +103,18 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>cloud</id>
+            <properties>
+                <spring.profiles.active>cloud</spring.profiles.active>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 </project>

@@ -1,7 +1,7 @@
 ################################################### OWNER
 
 #SAVE
-POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owners
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 ###
 
 #GET
-GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/1
+GET https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owners/1
 
 ###
 
@@ -54,7 +54,7 @@ PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/owner/kill/1
 ################################################### CAT
 
 #SAVE
-POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat
+POST https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pets/cats
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
 ###
 
 #UPDATE
-PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pet/cat/1
+PUT https://spring-boot-pets.cfapps.eu10.hana.ondemand.com/pets/cats/1
 Content-Type: application/json
 
 {

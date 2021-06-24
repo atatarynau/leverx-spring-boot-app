@@ -5,3 +5,6 @@ applications:
     memory: 1G
     path: target/leverx-spring-boot-app-0.0.1-SNAPSHOT.war
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
+    services:
+      - postgre
+      - my-logs
