@@ -3,7 +3,8 @@
 * [Description](#description)
 * [Resource components](#Resource-components)
 * [How to run on SAP Cloud Foundry](#How-to-run-on-SAP-Cloud-Foundry)
-* [How to connect to SAP postgreSQL](#How-to-run-on-SAP-postgreSQL)
+* [How to connect to SAP postgreSQL](#How-to-connect-to-SAP-postgreSQL)
+* [How to change log style to JSON](#How-to-change-log-style-to-JSON)
 
 
 ## Description
@@ -109,61 +110,61 @@ applications:
   - name: spring-boot-pets
     instances: 1
     memory: 1G
-    path: target/leverx-spring-boot-app-0.0.1-SNAPSHOT.war
+    path: target/leverx-spring-boot-app-0.0.1-SNAPSHOT.jar
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
     services: 
         - my-logs
         - postgre
 ```
 
-1. Push application on SAP
-2. To start you must register on [SAP](https://www.sap.com/).
+   1. To start you must register on [SAP](https://www.sap.com/).
 
-3. Download and install [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
+   2. Download and install [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
 
-3. Open your trial [account](https://cockpit.hanatrial.ondemand.com/trial/#/home/trial), choose Europe(Frankfurt) region,
+   3. Open your trial [account](https://cockpit.hanatrial.ondemand.com/trial/#/home/trial), choose Europe(Frankfurt) region,
    then choose trial subaccount and copy API Endpoint.
    
-3. Open idea terminal and set api endpoint:
+   4. Open idea terminal and set api endpoint:
 
-   ```
-      cf api {copied API Endpoint}
-   ```
+      ```
+         cf api {copied API Endpoint}
+      ```
    
-4. Then you must enter your email and password for log into your account:
+   5. Then you must enter your email and password for log into your account:
 
-   ```
-      cf login {your email}
-   ```
+      ```
+         cf login {your email}
+      ```
    
-   ```
-      cf password {password}
-   ```
+      ```
+         cf password {password}
+      ```
 
-6. Package project with cloud profile:
+   6. Package project with cloud profile:
 
-    ```
-       mvn package -Pcloud -Dmaven.test.skip=true
-    ```
+      ```
+          mvn clean package -Pcloud
+      ```
+      *If tests don't pass set @ActiveProfiles("prod")*
+  
+   7. Create necessary services (PostgreSQL with name **posgre** and Application logger with name 
+   **my-logs**) on SAP Cloud (name of this service may differ:
 
-6. Create necessary services (PostgreSQL with name **posgre** and Application logger with name 
-   **my-logs**) on SAP Cloud:
+      ```
+         cf create-service postgresql-db trial postgre
+      ```
 
-    ```
-        cf create-service postgresql-db trial postgre
-    ```
-
-    ```
-        cf create-service application-logs trial my-logs 
-    ```
+      ```
+         cf create-service application-logs trial my-logs 
+      ```
+      
+   8. Now you can push application on SAP Cloud Foundry.
    
-6. Now you can push application on SAP Cloud Foundry.
+      ```
+         cf push
+      ```
    
-   ```
-      cf push
-   ```
-   
-7. To get link on your service open dev space.
+   9. To get link on your service open dev space.
 
 ## How to connect to SAP postgreSQL
 
@@ -179,7 +180,7 @@ applications:
       cf restart {application name}
    ```
 
-3. Create SSH connection:
+3. Create SSH connection (don't close the terminal to open the connection):
 
    ```
       cf ssh -L localhost:{local port}:{postgreSQL hostname}:{postgreSQL port} {application name} -N
@@ -192,3 +193,29 @@ applications:
       username: {username from SAP postgreSQL credential}
       password: {password from SAP postgreSQL credential}
    ```
+   
+## How to change log style to JSON
+
+   1. *logback-spring.xml* must be located in ```src/main/resources/logback-spring.xml```
+   2. File content:
+      ```
+         <?xml version="1.0" encoding="UTF-8"?>
+         <configuration>
+               <springProfile name="!cloud">
+                  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+                  <root level="INFO"/>
+                  <logger name="org.springframework.web" level="INFO"/>
+               </springProfile>
+               <springProfile name="cloud">
+                  <appender name="STDOUT-JSON" class="ch.qos.logback.core.ConsoleAppender">
+                     <encoder class="com.sap.hcp.cf.logback.encoder.JsonEncoder"/>
+                  </appender>
+                  <root level="INFO">
+                     <appender-ref ref="STDOUT-JSON"/>
+                  </root>
+                  <logger name="com.sap.cloud.sdk" level="INFO"/>
+                  <logger name="package.to.log" level="DEBUG"/>
+               </springProfile>
+         </configuration>
+      ```
+   
