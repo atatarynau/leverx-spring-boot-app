@@ -3,7 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/pets
     username: postgres
     password: password
-    driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect

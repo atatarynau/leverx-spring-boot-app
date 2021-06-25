@@ -11,7 +11,7 @@
     <groupId>com.leverx</groupId>
     <artifactId>leverx-spring-boot-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>leverx-spring-boot-app</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -76,12 +76,14 @@
     <profiles>
         <profile>
             <id>dev</id>
-            <properties>
-                <spring.profiles.active>dev</spring.profiles.active>
-            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <env>dev</env>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+
             <dependencies>
                 <dependency>
                     <groupId>com.h2database</groupId>
@@ -114,6 +116,11 @@
                     <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.sap.hcp.cf.logging</groupId>
+                    <artifactId>cf-java-logging-support-logback</artifactId>
+                    <version>3.4.0</version>
                 </dependency>
             </dependencies>
         </profile>
