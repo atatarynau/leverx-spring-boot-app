@@ -158,6 +158,7 @@ applications:
          cf create-service application-logs trial my-logs 
       ```
       
+        *If postgreSQL doesn't create you must add roles [here](https://cockpit.hanatrial.ondemand.com/trial/#/globalaccount/4c78b525-9f04-4c8b-821e-7017623a5dc3/subaccount/ba456e73-07f0-4170-aa54-d72490a7b420/usersOverview&//userRoleCollections/0/?layout=TwoColumnsBeginExpanded).
    8. Now you can push application on SAP Cloud Foundry.
    
       ```
