@@ -3,6 +3,7 @@
 * [Description](#description)
 * [Resource components](#Resource-components)
 * [How to run on SAP Cloud Foundry](#How-to-run-on-SAP-Cloud-Foundry)
+* [How to connect to SAP postgreSQL](#How-to-run-on-SAP-postgreSQL)
 
 
 ## Description
@@ -115,9 +116,10 @@ applications:
         - postgre
 ```
 
-1. To start you must register on [SAP](https://www.sap.com/).
+1. Push application on SAP
+2. To start you must register on [SAP](https://www.sap.com/).
 
-2. Download and install [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
+3. Download and install [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
 
 3. Open your trial [account](https://cockpit.hanatrial.ondemand.com/trial/#/home/trial), choose Europe(Frankfurt) region,
    then choose trial subaccount and copy API Endpoint.
@@ -162,3 +164,31 @@ applications:
    ```
    
 7. To get link on your service open dev space.
+
+## How to connect to SAP postgreSQL
+
+1. Open a second terminal and enable SSH for application:
+
+   ```
+      cf enable-ssh {application name}
+   ```
+
+2. Restart application:
+
+   ```
+      cf restart {application name}
+   ```
+
+3. Create SSH connection:
+
+   ```
+      cf ssh -L localhost:{local port}:{postgreSQL hostname}:{postgreSQL port} {application name} -N
+   ```
+   
+4. Now you can use credential to connect
+   
+   ```
+      url: jdbc:postgresql://localhost:{local port}/{database name from SAP postgreSQL credential}
+      username: {username from SAP postgreSQL credential}
+      password: {password from SAP postgreSQL credential}
+   ```
