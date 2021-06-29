@@ -219,4 +219,11 @@ applications:
                </springProfile>
          </configuration>
       ```
-   
+   3. Add dependency to a pom.xml: 
+      ```
+         <dependency>
+                    <groupId>com.sap.hcp.cf.logging</groupId>
+                    <artifactId>cf-java-logging-support-logback</artifactId>
+                    <version>3.4.0</version>
+         </dependency>
+      ```
