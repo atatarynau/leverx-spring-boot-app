@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -140,7 +142,11 @@ public class OwnerServiceImpl implements OwnerService {
         return pet;
     }
 
+    @Override
+    public List<Owner> getAll() {
 
-
-
+        log.debug("Get all owners.");
+        List<Owner> allOwners = ownerRepository.findAll();
+        return allOwners;
+    }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -75,5 +76,12 @@ public class OwnerController {
 
         ownerService.exchangePets(ownerParamExchangePets);
         return ResponseEntity.ok("Exchange was finished");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Owner>> getAll() {
+
+        List<Owner> allOwners = ownerService.getAll();
+        return ResponseEntity.ok(allOwners);
     }
 }

@@ -8,3 +8,5 @@ applications:
     services:
       - postgre
       - my-logs
+    env:
+      JBP_CONFIG_DEBUG: '{enabled: true}'

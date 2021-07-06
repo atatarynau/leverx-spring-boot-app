@@ -18,7 +18,6 @@ import java.util.List;
 public class PetController {
 
     private final static String PET_PATH_ID = "/{id}";
-    private final static String PET_PATH_GET_ALL = "/all";
 
     private final PetService petService;
 
@@ -29,7 +28,7 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @GetMapping(PET_PATH_GET_ALL)
+    @GetMapping
     public ResponseEntity<List<Pet>> getAll() {
 
         List<Pet> pets = petService.getAllPets();

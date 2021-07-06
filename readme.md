@@ -5,6 +5,8 @@
 * [How to run on SAP Cloud Foundry](#How-to-run-on-SAP-Cloud-Foundry)
 * [How to connect to SAP postgreSQL](#How-to-connect-to-SAP-postgreSQL)
 * [How to change log style to JSON](#How-to-change-log-style-to-JSON)
+* [How to use debug cloud base application from Intellij Idea](#How-to-use-debug-cloud-base-application-from-Intellij-Idea)
+* [](#How-to-use-debug-cloud-base-application-from-Intellij-Idea)
 
 
 ## Description
@@ -227,3 +229,28 @@ applications:
                     <version>3.4.0</version>
          </dependency>
       ```
+
+##How to use debug cloud base application from Intellij Idea 
+
+   1. Write the following commands in terminal: 
+      ```
+        cf allow-space-ssh dev
+      
+        cf enable-ssh {application name}
+      
+        cf restage spring-boot-pets
+
+      ```
+   2. Open a second terminal and write: 
+      
+      ```
+      cf ssh -N -T -L 8000:localhost:8000 {application name}
+      ```
+   3. Add the following line to the manifest.yaml :
+      
+      ```
+      env: 
+        JBP_CONFIG_DEBUG: '{enabled: true}'
+      ```
+   4. Push alt+shift+f9 (intellij idea) and create new remote JVM debug configuration with port 8000
+   5. Start debug

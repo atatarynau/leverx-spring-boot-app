@@ -3,6 +3,8 @@ package com.leverx.leverxspringbootapp.service;
 import com.leverx.leverxspringbootapp.entity.Owner;
 import com.leverx.leverxspringbootapp.param.OwnerParamExchangePets;
 
+import java.util.List;
+
 public interface OwnerService {
 
     Owner save(Owner owner);
@@ -18,4 +20,6 @@ public interface OwnerService {
     void update(Owner owner);
 
     void exchangePets(OwnerParamExchangePets ownerParamExchangePets);
+
+    List<Owner> getAll();
 }
