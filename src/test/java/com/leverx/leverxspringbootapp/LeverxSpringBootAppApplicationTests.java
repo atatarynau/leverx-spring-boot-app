@@ -10,6 +10,8 @@ class LeverxSpringBootAppApplicationTests {
 
     @Test
     void contextLoads() {
+
+        //
     }
 
 }
