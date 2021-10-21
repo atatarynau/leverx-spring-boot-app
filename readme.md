@@ -230,7 +230,7 @@ applications:
          </dependency>
       ```
 
-##How to use debug cloud base application from Intellij Idea 
+## How to use debug cloud base application from Intellij Idea 
 
    1. Write the following commands in terminal: 
       ```
